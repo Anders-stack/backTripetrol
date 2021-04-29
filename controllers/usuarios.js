@@ -1,72 +1,83 @@
 const {response} =require('express');
 const { request } = require('express');
-const  Connection  = require('tedious').Connection;
-const Request = require('tedious').Request;
+const bcryptjs = require('bcryptjs');
+const {Usuario} =require('../models/usuario');
 
 
 
 
-const usuariosGet = (req,res= response) => {
+const usuariosGet = async (req,res= response) => {
     
-    res.json({
-        msg:'GET API - cotroller'
-    }
-    );
+    const usuarios = await Usuario.findAll();
+
+    res.json(usuarios);
 }
 
-const usuariosPost = (req=request,res= response) => {
+const usuarioGet = async (req=request,res= response) => {
+    
+    const {id}= req.params;
+    const usuario = await Usuario.findByPk(id);
+    if(usuario){
+        res.json(usuario);
+    }
+    else{
+        res.status(404).json({
+            msg: `No existe un usuario con el ${id}`
+        })
+    }
 
-    const connection = new Connection({
-        server: 'acaditecserver.database.windows.net',
-        authentication: {
-            type: 'default',
-            options: {
-                userName: 'acaditec',
-                password: '1668822Lp',
-            }
-        },
-        options: {
-            database: 'aitecdb1',
-            port: 1433,
-        }
-    });    
+}
 
+const usuariosPost = async (req=request,res= response) => {
+
+   
     const body = req.body;
-    const {titulo, valor, disponible}=JSON.parse(body)
-    const datos=JSON.parse (body)
+    const {pass} = body;
+    //verificar correo
 
-    connection.connect(function(err) {
-        if (err) {
-          console.log('Connection Failed!');
-          throw err;
-        }
-        const sql = `INSERT INTO [dbo].[Productos] (titulo,precio,disponible) VALUES ('${titulo}',${valor},${disponible?1:0})`;
-        const request = new Request(sql, (err, rowCount) => {
-          if (err) {
-            throw err;
-          }
-      
-          console.log(`Datos insertados!.`);
-        });
-      
-        connection.execSql(request);
-      });
+    //Encriptar
+    const salt = bcryptjs.genSaltSync();
+    body.pass = bcryptjs.hashSync(pass,salt)
 
-
-    console.log(body);
-    res.json({
-        msg:'POST API - cotroller',
-        datos
+    try{
+        
+        const usuario= new Usuario(body);
+        await usuario.save();
+        res.json({usuario, ok:true});
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg:'Algo salio mal, comuniquese con el administrador'
+        })
     }
-    );
+
+  
+
 }
 
-const usuariosPut = (req,res= response) => {
+const usuariosPut = async (req= request,res= response) => {
     
-    res.json({
-        msg:'PUT API - cotroller'
+    const {id} = req.params;   
+    const {body} = req;
+
+    try{
+        const usuario =await Usuario.finbyPk(id);
+        if (!Usuario){
+            return res.status(400).json({
+                msg: `No existe un usario con el id  ${id}`
+            })
+        }
+
+        await usuario.update( body );
+        res.json(usuario);
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg:'Algo salio mal, comuniquese con el administrador'
+        })
     }
-    );
 }
 const usuariosDelete = (req,res= response) => {
     
@@ -76,12 +87,10 @@ const usuariosDelete = (req,res= response) => {
     );
 }
 
-function insertDatosProduto(titulo,precio,disponible) {
 
-  }
 
 
 
 module.exports ={
-    usuariosGet, usuariosPost,usuariosPut,usuariosDelete
+    usuariosGet, usuarioGet, usuariosPost,usuariosPut,usuariosDelete
 }
