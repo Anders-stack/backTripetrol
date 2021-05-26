@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2614c32b-cb9e-4c80-b969-5bfaa582972b/resourceGroups/AITECPROYECT/providers/Microsoft.Web/sites/acaditecapibeta",
+    "appService.deploySubpath": "."
+}

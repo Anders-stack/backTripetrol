@@ -11,6 +11,7 @@ class Server{
 
         this.usuariosPath='/api/usuarios'
         this.authPath='/api/auth'
+        this.chequesPath='/api/cheques'
 
 
         //database
@@ -44,6 +45,7 @@ class Server{
     routes(){
         this.app.use(this.authPath,require('../routes/auth'))
         this.app.use(this.usuariosPath,require('../routes/usuarios'))
+        this.app.use(this.chequesPath,require('../routes/cheques'))
     }
     listen(){
         this.app.listen(this.port,()=>{
