@@ -88,7 +88,7 @@ const chequePutAprob = async (req= request,res= response) => {
         }
             
         );
-        res.json(cheque);
+        res.json({cheque, ok:true});
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -119,7 +119,7 @@ const chequePutAnul = async (req= request,res= response) => {
         }
             
         );
-        res.json(cheque);
+        res.json({cheque, ok:true});
     } catch (error) {
         console.log(error)
         res.status(500).json({

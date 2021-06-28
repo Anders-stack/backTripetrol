@@ -26,6 +26,10 @@ const Usuario = sequelize.define('User', {
     G_Sync: {
       type: DataTypes.BOOLEAN,
       allowNull: false 
+    },    
+    ID_ROLE: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1 
     },
   }, {
     timestamps: false
