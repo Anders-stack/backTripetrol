@@ -2,6 +2,7 @@ const {response} =require('express');
 const { request } = require('express');
 const bcryptjs = require('bcryptjs');
 const {Usuario} =require('../models/usuario');
+const {Asignacion_role} =require('../models/asignacion');
 
 
 
@@ -23,6 +24,20 @@ const usuarioGet = async (req=request,res= response) => {
     else{
         res.status(404).json({
             msg: `No existe un usuario con el ${id}`
+        })
+    }
+
+}
+const rolesGet = async (req=request,res= response) => {
+    
+    const {id}= req.params;
+    const roles = await Asignacion_role.findAll({where:{ID_WORKER: id}, attributes: [ 'ID_JOB']});
+    if(roles){
+        res.json(roles);
+    }
+    else{
+        res.status(404).json({
+            msg: `No existen roles con el ${id}`
         })
     }
 
@@ -92,5 +107,5 @@ const usuariosDelete = (req,res= response) => {
 
 
 module.exports ={
-    usuariosGet, usuarioGet, usuariosPost,usuariosPut,usuariosDelete
+    usuariosGet, usuarioGet, usuariosPost,usuariosPut,usuariosDelete,rolesGet
 }
