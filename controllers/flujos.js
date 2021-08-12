@@ -41,6 +41,20 @@ const flujoCamionesGet = async (req=request,res= response) => {
     }
 
 }
+const flujoCamionesEntradaGet = async (req=request,res= response) => {
+    
+    const camiones = await sequelize.query('SELECT C.Nombre, B.GARRAFAS_VACIAS, B.GARRAFAS_LLENAS, D.MATRICULA, B.ID_CONDUCTOR, B.ID_CAMION FROM (SELECT a.GARRAFAS_VACIAS,a.GARRAFAS_LLENAS,a.ID_CONDUCTOR,a.ID_CAMION,x.ULT_FECHA FROM (SELECT ID_CAMION, MAX(FECHA) AS ULT_FECHA FROM dbo.flujos GROUP BY ID_CAMION) x INNER JOIN dbo.flujos a on a.ID_CAMION=x.ID_CAMION AND a.FECHA=x.ULT_FECHA WHERE SALIDA=1) B INNER JOIN dbo.users C on C.ID=B.ID_CONDUCTOR INNER JOIN dbo.camiones D on D.ID=B.ID_CAMION',
+    { type: QueryTypes.SELECT });
+    if(camiones){
+        res.json(camiones);
+    }
+    else{
+        res.status(404).json({
+            msg: `No existen camiones`
+        })
+    }
+
+}
 
 const flujoPost = async (req=request,res= response) => {
 
@@ -261,4 +275,5 @@ module.exports ={
     flujosCajeroGet,
     rechazoCajeroPut,
     aprobadoCajeroPut,
+    flujoCamionesEntradaGet
 }

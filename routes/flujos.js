@@ -14,7 +14,8 @@ const {
     rechazoConductorPut,
     flujosCajeroGet,
     rechazoCajeroPut,
-    aprobadoCajeroPut
+    aprobadoCajeroPut,
+    flujoCamionesEntradaGet
 } =require('../controllers/flujos');
 const { emailExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -22,6 +23,7 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 router.get('/',flujoGet);
 router.get('/camiones',flujoCamionesGet);
+router.get('/camionesentrada',flujoCamionesEntradaGet);
 router.get('/precio',precioGarrafaGet);
 router.put('/aprobadoConductor/:id', aprobadoConductorPut);
 router.put('/rechazoConductor/:id', rechazoConductorPut);
