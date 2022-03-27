@@ -55,6 +55,10 @@ const Cheque = sequelize.define('Cheque', {
       type: DataTypes.BOOLEAN,
       defaultValue: true 
     },
+    camiones: {
+      type: DataTypes.STRING,
+      allowNull: true 
+    },
   }, {
     timestamps: false
   });

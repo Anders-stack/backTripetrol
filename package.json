@@ -14,7 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-validator": "^6.10.0",
+    "express-validator": "^6.12.1",
     "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.6.2",
