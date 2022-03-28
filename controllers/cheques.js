@@ -17,7 +17,7 @@ const chequesGet = async (req,res= response) => {
 
 const chequesPeticionGet = async (req=request,res= response) => {
     
-    const cheques = await sequelize.query('select dbo.cheques.ID, dbo.users.Nombre, dbo.cheques.No_Cheque, dbo.cheques.ID_ADMIN, dbo.cheques.RURAL, dbo.cheques.IMPORTE, dbo.cheques.No_GARRAFAS, dbo.cheques.FECHA_PETICION from dbo.cheques inner join dbo.users on dbo.users.ID=dbo.cheques.ID_ADMIN where dbo.cheques.PETICION=1',
+    const cheques = await sequelize.query('select dbo.cheques.ID, dbo.users.Nombre, dbo.cheques.No_Cheque, dbo.cheques.ID_ADMIN, dbo.cheques.RURAL, dbo.cheques.IMPORTE, dbo.cheques.No_GARRAFAS, dbo.cheques.FECHA_PETICION,dbo.cheques.camiones from dbo.cheques inner join dbo.users on dbo.users.ID=dbo.cheques.ID_ADMIN where dbo.cheques.PETICION=1',
     { type: QueryTypes.SELECT });
     if(cheques){
         res.json(cheques);
