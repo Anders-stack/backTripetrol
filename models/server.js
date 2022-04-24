@@ -13,6 +13,8 @@ class Server{
         this.authPath='/api/auth'
         this.chequesPath='/api/cheques'
         this.flujosPath='/api/flujos'
+        this.trasladosPath='/api/traslado'
+        this.camionesPath='/api/camiones'
 
 
         //database
@@ -48,6 +50,8 @@ class Server{
         this.app.use(this.usuariosPath,require('../routes/usuarios'));
         this.app.use(this.chequesPath,require('../routes/cheques'));
         this.app.use(this.flujosPath,require('../routes/flujos'));
+        this.app.use(this.trasladosPath,require('../routes/traslado'));
+        this.app.use(this.camionesPath,require('../routes/camiones'));
     }
     listen(){
         this.app.listen(this.port,()=>{
