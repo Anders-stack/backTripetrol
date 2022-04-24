@@ -51,6 +51,10 @@ const Traslado = sequelize.define('Traslado', {
       type: DataTypes.DATE,
       allowNull: true 
     },
+    id_cheque: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
   }, {
     timestamps: true,
     createdAt:'FECHA_SALIDA',
