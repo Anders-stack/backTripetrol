@@ -29,12 +29,16 @@ const chequesPeticionGet = async (req=request,res= response) => {
     }
 
 }
-const chequeGet = async (req=request,res= response) => {
+const trasladoGet = async (req=request,res= response) => {
     
     const {id}= req.params;
-    const cheque = await Cheque.findByPk(id);
-    if(cheque){
-        res.json(cheque);
+    const traslado = await Traslado.findAll({
+        where: {
+            ENTRADA: true
+        }
+      });
+    if(traslado){
+        res.json({traslado, ok:true});
     }
     else{
         res.status(404).json({
@@ -128,5 +132,6 @@ const chequeDelete = (req,res= response) => {
 
 module.exports ={
     trasladoPost,
-    trasladoPostIn
+    trasladoPostIn,
+    trasladoGet
 }
